@@ -18,4 +18,4 @@ hexdigtodec('F', 15).
 acc_hex([H|T], P, Dec) :- hexdigtodec(H, Y), X is P*16+Y, acc_hex(T, X, Dec).
 acc_hex([], Dec, Dec).
 
-hextodec(Hex, Dec) :- string_chars(Hex, L), acc_hex(L, 0, Dec).
+hextodec(HexString, DecNumber) :- atom_string(HexAtomic, HexString), atom_chars(HexAtomic, HexAtomicArr), acc_hex(HexAtomicArr, 0, DecNumber).
