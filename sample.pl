@@ -15,8 +15,11 @@ get_color([_|L], Oc) :- get_color(L, Oc).
 get_shape(["shape",Os|_], Os).
 get_shape([_|L], Os) :- get_shape(L, Os).
 
+get_music(["music",Om, "genre", Og|_], Om).
 get_music(["music",Om|_], Om).
 get_music([_|L], Om) :- get_music(L, Om).
+
+
 
 rule(["color","A","shape","D"]).
 rule(["music","G"]).
