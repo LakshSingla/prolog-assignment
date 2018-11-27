@@ -14,11 +14,21 @@ clause_parser(X, Y, Packet) :-
 		eth_clause_matches(X, Y, Packet);
 		ip_clause_matches(X, Y, Packet).
 
-adpt_clause_matches(["adapter", AdptExpr|W], W, Packet) :- get_keyval(Packet, "adapter", PacketAdptExpr), adpt_expr_matches(AdptExpr,PacketAdptExpr).
+adpt_clause_matches(["adapter", AdptExpr|W], W, Packet) :- 
+	get_keyval(Packet, "adapter", PacketAdptExpr), 
+	adpt_expr_matches(AdptExpr,PacketAdptExpr).
 
-eth_clause_matches(["ether", "vid", VidExpr, "proto", ProtoExpr|W], W, Packet) :- get_keyval(Packet, "vid", PacketVidExpr).
-eth_clause_matches(["ether", "vid", VidExpr|W], W, Packet) :- true.
-eth_clause_matches(["ether", "proto", ProtoExpr|W], W, Packet) :- true.
+eth_clause_matches(["ether", "vid", VidExpr, "proto", ProtoExpr|W], W, Packet) :- 
+	get_keyval(Packet, "vid", PacketVidExpr),
+	num_expr_matches(VidExpr, PacketVidExpr),
+	get_keyval(Packet, "nlproto", PacketProtoExpr),
+	proto_expr_matches(ProtoExpr, PacketProtoExpr).
+eth_clause_matches(["ether", "vid", VidExpr|W], W, Packet) :-
+get_keyval(Packet, "vid", PacketVidExpr),
+	num_expr_matches(VidExpr, PacketVidExpr).
+eth_clause_matches(["ether", "proto", ProtoExpr|W], W, Packet) :-
+	get_keyval(Packet, "nlproto", PacketProtoExpr),
+	proto_expr_matches(ProtoExpr, PacketProtoExpr).
 
 ip_clause_matches(["ip", "src", "addr", SrcAddrExpr, "dst", "addr", DstAddrExpr|W0], W, Packet) :- condition_matches(W0, W, Packet).
 ip_clause_matches(["ip", "addr", AddrExpr|W0], W, Packet) :- condition_matches(W0, W, Packet).
@@ -42,3 +52,8 @@ get_keyval([Key, Val| _], Key, Val).
 get_keyval([_, _| T], Key, Val) :- get_keyval(T, Key, Val).
 
 adpt_expr_matches(X, X).
+num_expr_matches(X, X).
+proto_expr_matches(RuleProto, PacketProto) :-
+	alpha_proto(RuleProto, PacketProto);
+	num_expr_matches(RuleProto, PacketProto)
+alpha_proto(X, X).
