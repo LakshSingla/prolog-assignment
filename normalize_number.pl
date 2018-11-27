@@ -5,4 +5,5 @@ normalize_numstr(NumString, NormalizedNum) :-
 
 normalize_numatomicarr(NumAtomicArr, NormalizedNum) :-
 	NumAtomicArr = ['0', 'x'| HexAtomicArr], acc_hex(HexAtomicArr, 0, NormalizedNum);
-	NumAtomicArr = ['0'| OctAtomicArr], acc_oct(OctAtomicArr, 0, NormalizedNum).
+	NumAtomicArr = ['0'| OctAtomicArr], acc_oct(OctAtomicArr, 0, NormalizedNum);
+	atom_chars(NumAtomic, NumAtomicArr), atom_number(NumAtomic, NormalizedNum).
