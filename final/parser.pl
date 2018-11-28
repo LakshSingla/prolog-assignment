@@ -63,38 +63,47 @@ ip_clause_matches(["ip", "dst", "addr", DstIp|W0], W, Packet) :-
 ip_clause_matches(["ip"|W0], W, Packet) :- condition_matches(W0, W, Packet).
 
 condition_matches(["tcp", "dst", "port", DstPort, "src", "port", SrcPort|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "tcp"),
 	get_keyval(Packet, "srcport", PktSrcPort),
 	num_expr_matches(SrcPort, PktSrcPort),
 	get_keyval(Packet, "dstport", PktDstPort),
 	num_expr_matches(DstPort, PktDstPort).
 condition_matches(["tcp", "dst", "port", DstPort|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "tcp"),
 	get_keyval(Packet, "dstport", PktDstPort),
 	num_expr_matches(DstPort, PktDstPort).
 condition_matches(["tcp", "src", "port", SrcPort|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "tcp"),
 	get_keyval(Packet, "srcport", PktSrcPort),
 	num_expr_matches(SrcPort, PktSrcPort).
 
 condition_matches(["udp", "dst", "port", DstPort, "src", "port", SrcPort|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "udp"),
 	get_keyval(Packet, "srcport", PktSrcPort),
 	num_expr_matches(SrcPort, PktSrcPort),
 	get_keyval(Packet, "dstport", PktDstPort),
 	num_expr_matches(DstPort, PktDstPort).
 condition_matches(["udp", "dst", "port", DstPort|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "udp"),
 	get_keyval(Packet, "dstport", PktDstPort),
 	num_expr_matches(DstPort, PktDstPort).
 condition_matches(["udp", "src", "port", SrcPort|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "udp"),
 	get_keyval(Packet, "srcport", PktSrcPort),
 	num_expr_matches(SrcPort, PktSrcPort).
 
 condition_matches(["icmp", "type", IcmpType, "code", IcmpCode|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "icmp"),
 	get_keyval(Packet, "icmptype", PktIcmpType),
 	num_expr_matches(IcmpType, PktIcmpType),
 	get_keyval(Packet, "icmpcode", PktIcmpCode),
 	num_expr_matches(IcmpCode, PktIcmpCode).
 condition_matches(["icmp", "type", IcmpType|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "icmp"),
 	get_keyval(Packet, "icmptype", PktIcmpType),
 	num_expr_matches(IcmpType, PktIcmpType).
 condition_matches(["icmp", "code", IcmpCode|W], W, Packet) :-
+	get_keyval(Packet, "tlproto", "icmp"),
 	get_keyval(Packet, "icmpcode", PktIcmpCode),
 	num_expr_matches(IcmpCode, PktIcmpCode).
 
