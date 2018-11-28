@@ -19,7 +19,7 @@ clause_parser(X, Y, Packet) :-
 		eth_clause_matches(X, Y, Packet);
 		ip_clause_matches(X, Y, Packet).
 
-adpt_clause_matches(["adapter", AdptExpr|W], W, Packet) :- 
+adpt_clause_matches(["adapter", Adpt|W], W, Packet) :- 
 	get_keyval(Packet, "adapter", PktAdpt), 
 	adpt_expr_matches(Adpt,PktAdpt).
 
@@ -57,7 +57,7 @@ ip_clause_matches(["ip", "src", "addr", SrcIp|W0], W, Packet) :-
 
 ip_clause_matches(["ip", "dst", "addr", DstIp|W0], W, Packet) :- 
 	get_keyval(Packet, "dstip", PktDstIp),
-	ip_expr_matches(Ip, PktDstIp),
+	ip_expr_matches(DstIp, PktDstIp),
 	condition_matches(W0, W, Packet).
 
 ip_clause_matches(["ip"|W0], W, Packet) :- condition_matches(W0, W, Packet).
