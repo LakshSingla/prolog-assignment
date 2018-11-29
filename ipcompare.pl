@@ -32,7 +32,8 @@ ip_expr_matches(RuleIP, PacketIP) :-
 	number_string(Mask, MaskStr),
 	ip_to_binary(Subnet, SubnetBinary),
 	ip_to_binary(PacketIP, PacketIpBinary),
-	mask_compare(SubnetBinary, PacketIpBinary, Mask)
+	mask_compare(SubnetBinary, PacketIpBinary, Mask),
+	!
 	;
 
 	ip_to_binary(RuleIP, Ip),
