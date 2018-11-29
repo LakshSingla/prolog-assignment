@@ -1,4 +1,4 @@
-% Utility to convert a hexadecimal string into its equivalent decimal representation
+% Utility to convert a hexadecimal atomic array into its equivalent decimal representation
 
 % Numerical forms of the hexadecimal atoms
 hexdigtodec('0', 0).
@@ -12,11 +12,17 @@ hexdigtodec('7', 7).
 hexdigtodec('8', 8).
 hexdigtodec('9', 9).
 hexdigtodec('A', 10).
+hexdigtodec('a', 10).
 hexdigtodec('B', 11).
+hexdigtodec('b', 11).
 hexdigtodec('C', 12).
+hexdigtodec('c', 12).
 hexdigtodec('D', 13).
+hexdigtodec('d', 13).
 hexdigtodec('E', 14).
+hexdigtodec('e', 14).
 hexdigtodec('F', 15).
+hexdigtodec('f', 15).
 
 acc_hex([H|T], P, Dec) :- 					
 

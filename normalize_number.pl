@@ -1,3 +1,9 @@
+% Utility to convert a string representation of a number into equivalent decimal representation
+% It detects the string to be hexadecimal if it begins with "0x" or "0X"
+% It detects the string to be octal if it begins with "0"
+% It defaults to decimal in all other cases and return false if the string is not a valid
+% numerical representation
+
 :- [octtodec, hextodec].
 
 normalize_numstr(NumString, NormalizedNum) :- 
