@@ -3,6 +3,8 @@
 % or a dash seperated range. It can work on strings representing numbers (IsNum)
 % or single alphabet (\+IsNum)
 
+:- [normalize_number].
+
 lies_in_CS_Expr(CSExpr, Val, IsNum) :- 
 
 	split_string(CSExpr, ",", "", L),			% split the expression by ','
@@ -24,15 +26,15 @@ satisfies(MaybeRange, Val, IsNum) :-
 
 	IsNum,										% true if the user wants to compare as numbers
 	MaybeRange = [Num1, Num2 | []], 			% Array has exactly 2 entities
-	number_string(NNum1, Num1), 
-	number_string(NNum2, Num2), 
-	number_string(NVal, Val), 
+	normalize_numstr(Num1, NNum1), 
+	normalize_numstr(Num2, NNum2), 
+	normalize_numstr(Val, NVal), 
 	NVal >= NNum1, NVal =< NNum2; 				% Comparison
 
 	IsNum,										% true if the user wants to compare as numbers 
 	MaybeRange = [Num | []], 					% Array has exactly 1 entity
-	number_string(NNum, Num), 
-	number_string(NVal, Val),  
+	normalize_numstr(Num, NNum), 
+	normalize_numstr(Val, NVal),  
 	NVal=NNum;									% Equality test
 
 	\+IsNum, 									% true if the user wants to compare as single alphabet
