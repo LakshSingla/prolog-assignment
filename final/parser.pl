@@ -1,5 +1,7 @@
 :- dynamic fwrule/2.
 
+:- [rangecheck].
+
 add_fwrule(Fate, Rule) :- assertz(fwrule(Fate,Rule)).
 
 fate(Fate, PacketStr) :- 
@@ -110,9 +112,23 @@ condition_matches(["icmp", "code", IcmpCode|W], W, Packet) :-
 get_keyval([Key, Val| _], Key, Val).
 get_keyval([_, _| T], Key, Val) :- get_keyval(T, Key, Val).
 
-adpt_expr_matches(X, X).
-num_expr_matches(X, X).
+% adpt_expr_matches(X, X).
+adpt_expr_matches("any", X).
+adpt_expr_matches(Adpt, PktAdpt) :-
+	lies_in_CS_Expr(Adpt, PktAdpt, false).
+
+num_expr_matches("any", X).
+num_expr_matches(NumExpr, Val):-
+	lies_in_CS_Expr(NumExpr, Val, true).
+
+ip_expr_matches(IpExpr, PktIp) :-
+	lies_in_CS_Expr(IpExpr, PktIp, true).
+
+
 proto_expr_matches(RuleProto, PacketProto) :-
 	proto_alpha_num(RuleProto, PacketProto);
 	num_expr_matches(RuleProto, PacketProto).
 proto_alpha_num(X, X).
+
+% What is proto expr matches and why is it different ?
+% Are empty conditions being handled ?
