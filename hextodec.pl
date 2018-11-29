@@ -26,8 +26,8 @@ acc_hex([H|T], P, Dec) :-
 
 acc_hex([], Dec, Dec).						% Transfer on bottoming out
 
-hextodec(HexString, DecNumber) :- 
+% hextodec(HexString, DecNumber) :- 
 
-	atom_string(HexAtomic, HexString), 		% Convert the string to equivalent atom
-	atom_chars(HexAtomic, HexAtomicArr), 	% Split the atom into characters
-	acc_hex(HexAtomicArr, 0, DecNumber).	% Call the hex accumulator on the char array
+	% atom_string(HexAtomic, HexString), 		% Convert the string to equivalent atom
+	% atom_chars(HexAtomic, HexAtomicArr), 	% Split the atom into characters
+	% acc_hex(HexAtomicArr, 0, DecNumber).	% Call the hex accumulator on the char array
