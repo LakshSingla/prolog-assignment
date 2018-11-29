@@ -109,6 +109,8 @@ condition_matches(["icmp", "code", IcmpCode|W], W, Packet) :-
 	get_keyval(Packet, "icmpcode", PktIcmpCode),
 	num_expr_matches(IcmpCode, PktIcmpCode).
 
+condition_matches(W, W, _).
+
 get_keyval([Key, Val| _], Key, Val).
 get_keyval([_, _| T], Key, Val) :- get_keyval(T, Key, Val).
 
