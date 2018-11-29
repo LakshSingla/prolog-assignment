@@ -27,8 +27,9 @@ ip_expr_matches(RuleIP, PacketIP) :-
 	EndBinary >= PacketBinary
 	;
 
-	split_string(RuleIP, "/", "", [Subnet|Mask]),
-	Mask = [_|_],
+	split_string(RuleIP, "/", "", [Subnet|MaskList]),
+	MaskList = [MaskStr|_],
+	number_string(Mask, MaskStr),
 	ip_to_binary(Subnet, SubnetBinary),
 	ip_to_binary(PacketIP, PacketIpBinary),
 	mask_compare(SubnetBinary, PacketIpBinary, Mask)
