@@ -2,7 +2,7 @@
 
 verify_fwrule(RuleStr) :- 
 	split_string(RuleStr, " ", "", Rule),
-	catch(rule_parser(Rule, []), _, false),
+	catch(rule_parser(Rule, []), _, write("Please enter a valid firewall rule.")),
 	!.
 
 rule_parser(X, Y) :- clause_parser(X, Y).
