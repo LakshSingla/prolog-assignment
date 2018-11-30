@@ -118,16 +118,15 @@ get_keyval([Key, Val| _], Key, Val).
 get_keyval([_, _| T], Key, Val) :- get_keyval(T, Key, Val).
 
 % adpt_expr_matches(X, X).
-adpt_expr_matches("any", X).
+adpt_expr_matches("any", _).
 adpt_expr_matches(Adpt, PktAdpt) :-
-	lies_in_CS_Expr(Adpt, PktAdpt, false).
+	lies_in_not_Expr(Adpt, PktAdpt, false).
 
-num_expr_matches("any", X).
+num_expr_matches("any", _).
 num_expr_matches(NumExpr, Val):-
-	lies_in_CS_Expr(NumExpr, Val, true).
+	lies_in_not_Expr(NumExpr, Val, true).
 
-ip_expr_matches(IpExpr, PktIp) :-
-	lies_in_CS_Expr(IpExpr, PktIp, true).
+ip_expr_matches(_, _).
 
 
 proto_expr_matches(RuleProto, PacketProto) :-

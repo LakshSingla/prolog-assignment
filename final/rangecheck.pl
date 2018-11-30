@@ -5,6 +5,15 @@
 
 :- [normalize_number].
 
+lies_in_not_Expr(MaybeNotExpr, Val, IsNum) :- 
+	
+	split_string(MaybeNotExpr, "!", "", ["", CSExpr]),
+	\+lies_in_CS_Expr(CSExpr, Val, IsNum);
+
+	split_string(MaybeNotExpr, "!", "", [CSExpr]),
+	lies_in_CS_Expr(CSExpr, Val, IsNum).
+
+
 lies_in_CS_Expr(CSExpr, Val, IsNum) :- 
 
 	split_string(CSExpr, ",", "", L),			% split the expression by ','
