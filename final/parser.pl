@@ -38,13 +38,13 @@ eth_clause_matches(["ether", "vid", Vid, "proto", NlProto|W], W, Packet) :-
 	get_keyval(Packet, "vid", PktVid),
 	num_expr_matches(Vid, PktVid),
 	get_keyval(Packet, "nlproto", PktNlProto),
-	proto_expr_matches(NlProto, PktNlProto).
+	num_expr_matches(NlProto, PktNlProto).
 eth_clause_matches(["ether", "vid", Vid|W], W, Packet) :-
 get_keyval(Packet, "vid", PktVid),
 	num_expr_matches(Vid, PktVid).
 eth_clause_matches(["ether", "proto", NlProto|W], W, Packet) :-
 	get_keyval(Packet, "nlproto", PktNlProto),
-	proto_expr_matches(NlProto, PktNlProto).
+	num_expr_matches(NlProto, PktNlProto).
 
 ip_clause_matches(["ip", "src", "addr", SrcIp, "dst", "addr", DstIp|W0], W, Packet) :- 
 	get_keyval(Packet, "srcip", PktSrcIp),
@@ -132,13 +132,4 @@ num_expr_matches("any", _).
 num_expr_matches(NumExpr, Val):-
 	lies_in_not_Expr(NumExpr, Val, true).
 
-ip_expr_matches(_, _).
-
-
-proto_expr_matches(RuleProto, PacketProto) :-
-	proto_alpha_num(RuleProto, PacketProto);
-	num_expr_matches(RuleProto, PacketProto).
-proto_alpha_num(X, X).
-
-% What is proto expr matches and why is it different ?
 % Are empty conditions being handled ?
