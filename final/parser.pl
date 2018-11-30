@@ -1,6 +1,7 @@
 :- dynamic fwrule/2.
 :- dynamic fwdefault/1.
 
+:- [ipcompare].
 :- [rangecheck].
 
 add_fwrule(Fate, Rule) :- assertz(fwrule(Fate,Rule)).
