@@ -1,5 +1,10 @@
 % Header imports
 
+verify_fate(Fate) :-
+	Fate = "accept";
+	Fate = "reject";
+	Fate = "drop".
+
 verify_fwrule(RuleStr) :- 
 	split_string(RuleStr, " ", "", Rule),
 	catch(rule_parser(Rule, []), _, false),
