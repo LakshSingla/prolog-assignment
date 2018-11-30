@@ -1,7 +1,5 @@
 % Header imports
 
-:- [parser].
-
 verify_fwrule(RuleStr) :- 
 	split_string(RuleStr, " ", "", Rule),
 	catch(rule_parser(Rule, []), _, false),
