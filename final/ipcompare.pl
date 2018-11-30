@@ -16,7 +16,7 @@ ip_expr_matches(RuleIP, PacketIP) :-
 	ip_list_expr_matches(IPList, PacketIP),
 	!;
 	split_string(RuleIP, "-", "", IPRange),
-	IPRange = [Begin,End|_],
+	IPRange = [Begin,End|[]],
 	ip_to_binary(Begin, BeginBinaryStr),
 	number_string(BeginBinary, BeginBinaryStr),
 	ip_to_binary(End, EndBinaryStr),
@@ -26,8 +26,7 @@ ip_expr_matches(RuleIP, PacketIP) :-
 	!,
 	BeginBinary =< PacketBinary,
 	EndBinary >= PacketBinary;
-	split_string(RuleIP, "/", "", [Subnet|MaskList]),
-	MaskList = [MaskStr|_],
+	split_string(RuleIP, "/", "", [Subnet,MaskStr|[]]),
 	number_string(Mask, MaskStr),
 	ip_to_binary(Subnet, SubnetBinary),
 	ip_to_binary(PacketIP, PacketIpBinary),
@@ -55,7 +54,7 @@ masked_compare(Subnet, PacketIP, Mask) :-
 % ip_to_binary(+IPString, -BinaryIPString)
 
 ip_to_binary(IP, IPBinary) :-
-	split_string(IP, ".", "", [ADecimal,BDecimal,CDecimal,DDecimal|_]),
+	split_string(IP, ".", "", [ADecimal,BDecimal,CDecimal,DDecimal|[]]),
 	decimal_to_byte(ADecimal, A),
 	decimal_to_byte(BDecimal, B),
 	decimal_to_byte(CDecimal, C),
