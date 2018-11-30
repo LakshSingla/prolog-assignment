@@ -4,7 +4,7 @@
 
 verify_fwrule(RuleStr) :- 
 	split_string(RuleStr, " ", "", Rule),
-	catch(rule_parser(Rule, []), _, write("Please enter a valid rule.")),
+	catch(rule_parser(Rule, []), _, false),
 	!.
 
 rule_parser(X, Y) :- clause_parser(X, Y).
