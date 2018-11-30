@@ -1,8 +1,11 @@
 :- dynamic fwrule/2.
+:- dynamic fwdefault/1.
 
 :- [rangecheck].
 
 add_fwrule(Fate, Rule) :- assertz(fwrule(Fate,Rule)).
+change_fwdefault(DefaultFate) :- retract(fwdefault(_)), assertz(fwdefault(DefaultFate)).
+fwdefault("Drop").
 
 fate(Fate, PacketStr) :- 
 	fwrule(Fate, RuleStr),
@@ -10,6 +13,8 @@ fate(Fate, PacketStr) :-
 	split_string(PacketStr, " ", "", Packet),
 	fwrule_matches(Rule, Packet),
 	!.
+
+fate(Fate, _) :- write("Resorting to firewall default"), fwdefault(Fate).
 
 %  Default query
 %  fate("drop", _).
