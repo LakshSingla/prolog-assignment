@@ -8,6 +8,8 @@
 
 % ip_expr_matches(+RuleIPString, +PacketIPString)
 
+:- [dectobin].
+
 ip_expr_matches(RuleIP, PacketIP) :-
 	split_string(RuleIP, ",", "", IPList),
 	IPList = [_,_|_],

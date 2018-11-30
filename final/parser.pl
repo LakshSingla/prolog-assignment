@@ -11,6 +11,9 @@ fate(Fate, PacketStr) :-
 	fwrule_matches(Rule, Packet),
 	!.
 
+%  Default query
+%  fate("drop", _).
+
 fwrule_matches(Rule, Packet) :- rule_parser(Rule, [], Packet).
 
 rule_parser(X, Y, Packet) :- clause_parser(X, Y, Packet).
