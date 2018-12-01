@@ -1,0 +1,105 @@
+[CS F214] LOGIC IN COMPUTER SCIENCE
+ASSIGNMENT (PROLOG)
+
+Title: Implementing a firewall through prolog.
+
+Submitted By:
+Laksh Singla			2017A7PS0082P
+Shubham Saxena			2017A7PS0302P
+
+Summary:
+
+The given prolog program implements a firewall through prolog programming language.
+Rules can be added to the firewall, and then packet details can be entered as queries to find out whether the packet will be accepted, rejected or ignored.
+
+
+
+
+
+-------------------------------------------REPRESENTATION OF EXPRESSIONS----------------------------------------------
+
+Numeric expressions can be in decimal, octal or hexadecimal notation. Convention followed is same as in other languages.
+
+	PREFIX	MEANING
+	0x 		Hexadecimcal numbers
+	0		Octal numbers
+	None	Decimal numbers
+
+Further,
+Expressions can be of the following forms:
+	
+	TYPE 					EXAMPLE
+	Single values			12
+	Comma separated list	0x34,023,12
+	Range					72-90 (former value should be lesser than latter)
+	Negated 				!10-20 (matches values except 10-20 both inclusive)
+
+
+
+
+
+------------------------------------------------------USAGE-------------------------------------------------------------
+
+Follow the steps to use the program -
+
+1. Import file '' to prolog (All other necessary imports are handled automatically).
+	Sample database is in the file ''. Import it if necessary.
+
+2. 	To add your own firewall rules during execution of program, pose the following query: 
+				?- add_fwrule(Fate, Rule).
+	where,
+		Fate  is accept | reject | drop
+		Rule is in string form, as defined in the documentation provided with assignment.
+
+		Example:	
+
+				?- add_fwrule("accept", "adapter A ip src addr 172.27.1.3").
+				[Accepts all packets coming from adapter A with source IP address 172.27.1.3]
+
+		Refer to 'database.pl' for comprehensive list of valid firewall rules.
+
+		NOTE: The rule language is case sensitive.
+		NOTE: Clauses in the rules can be added in any order.
+
+3. Check the fate of any packet by asking query
+				?- fate(Fate, Packet).
+	where,
+		Fate is the variable which will be instantiated to the fate of the packet (accept | reject | drop).
+		Packet is a string containing the details of the packet.
+
+		Example:
+
+				fate(Fate, "adapter B vid 20 tlproto udp srcport 0x34 dstport 077")
+
+
+		Details of a packet will include space separated key-value pairs. The following keys are defined:
+
+			KEY						VALUE					MEANING	
+
+			adapter					A - P					Network adapter through which packet is coming
+
+			vid						1 - 4095 				VLAN ID (applicable for packets on 802.1q protocol)
+
+			nlproto					0 - 255					Network layer protocol ID (optional)
+
+			srcip					Valid IPv4 address		Source IP address
+
+			dstip					Valid IPv4 address		Destination IP address
+
+			tlproto					tcp | udp | icmp 		Transport layer protocol
+
+			srcport					0 - 65535				Source port (applicable for tcp|udp)
+
+			dstport					0 - 65535				Destination port (applicable for tcp|udp)
+
+			icmptype				0 - 255					ICMP Type (applicable for icmp)
+
+			icmpcode				0 - 255					ICMP Code (applicable for icmp)
+
+4. Firewall default is 'drop'.
+	To change firewall default during execution of the program, pose the following query:
+				change_fwdefault(DefaultFate).
+
+	Example:
+				change_fwdefault("accept").
+				[Changes firewall to accept packets by default]
