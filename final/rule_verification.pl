@@ -2,6 +2,10 @@
 
 % :- [parser].
 :- ensure_loaded([ipcompare, rangecheck]).
+verify_fate(Fate) :-
+	Fate = "accept";
+	Fate = "reject";
+	Fate = "drop".
 
 verify_fwrule(RuleStr) :- 
 	split_string(RuleStr, " ", "", Rule),

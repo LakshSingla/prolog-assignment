@@ -3,7 +3,13 @@
 
 :- ensure_loaded([ipcompare, rangecheck, rule_verification]).
 
-add_fwrule(Fate, Rule) :- verify_fwrule(Rule), assertz(fwrule(Fate,Rule)).
+add_fwrule(Fate, Rule) :-
+	verify_fate(Fate),
+	verify_fwrule(Rule), 
+	assertz(fwrule(Fate,Rule)),
+	!;
+	write("Please enter a valid firewall rule."),
+	false.
 change_fwdefault(DefaultFate) :- retract(fwdefault(_)), assertz(fwdefault(DefaultFate)).
 fwdefault("Drop").
 
