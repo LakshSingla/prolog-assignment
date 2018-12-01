@@ -4,6 +4,8 @@
 :- use_module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
 :- use_module(rule_verification, [verify_fwrule/1, verify_fate/1]).
 
+:- [database].
+
 :- dynamic fwrule/2.
 :- dynamic fwdefault/1.
 
@@ -16,8 +18,11 @@ add_fwrule(Fate, Rule) :-
 	!;
 	write("Please enter a valid firewall rule."),
 	false.
-change_fwdefault(DefaultFate) :- retract(fwdefault(_)), assertz(fwdefault(DefaultFate)).
-fwdefault("Drop").
+change_fwdefault(DefaultFate) :- 
+	verify_fate(DefaultFate),
+	retract(fwdefault(_)), 
+	assertz(fwdefault(DefaultFate)).
+
 
 fate(Fate, PacketStr) :- 
 	fwrule(Fate, RuleStr),
