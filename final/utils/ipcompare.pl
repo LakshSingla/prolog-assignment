@@ -10,6 +10,7 @@
 :- module(ipcompare, [ip_expr_matches/2]).
 % :- ensure_loaded([dectobin]).
 :- use_module(dectobin, [decimal_to_byte/2]).
+:- use_module(rangecheck, [num_expr_matches/2]).
 
 
 ip_expr_matches(RuleIP, PacketIP) :-
