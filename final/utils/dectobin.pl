@@ -1,9 +1,8 @@
-% decimal_to_byte(+DecimalString, -ByteString)
-
 :- module(dectobin, [decimal_to_byte/2]).
 
+% decimal_to_byte(+DecimalString, -ByteString)
 
-decimal_to_byte(Decimal, Byte) :-
+decimal_to_byte(Decimal, Byte) :-					% Converts a number into binary byte form (bit string of length 8)
 	number_string(Number, Decimal),
 	decimal_to_binary(Number, Binary),
 	!,
@@ -14,7 +13,7 @@ decimal_to_byte(Decimal, Byte) :-
 
 decimal_to_binary(1, "1").
 decimal_to_binary(0, "0").
-decimal_to_binary(Decimal, Binary) :-
+decimal_to_binary(Decimal, Binary) :-				% Converts a number into binary form
 	Remainder is Decimal mod 2,
 	Quotient is Decimal // 2,
 	decimal_to_binary(Quotient, QuotientBinary),
@@ -23,7 +22,7 @@ decimal_to_binary(Decimal, Binary) :-
 
 % equivalent_byte(+BinaryString, -ByteString)
 
-equivalent_byte(Binary, Byte) :-
+equivalent_byte(Binary, Byte) :-					% Appends 0s until bit string equals length 8
 	string_length(Binary, 8),
 	Binary = Byte,
 	!;
