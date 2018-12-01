@@ -12,8 +12,12 @@ Summary:
 The given prolog program implements a firewall through prolog programming language.
 Rules can be added to the firewall, and then packet details can be entered as queries to find out whether the packet will be accepted, rejected or ignored.
 
+--------------------------------CONVENTION ACCEPTED FOR MULTIPLE APPLICABLE RULES-------------------------------------
 
 
+Rules added at runtime are given higher precedence over rules added through 'database.pl'.
+Rules are evaluated top to bottom.
+Earlier rules are given precedence over later rules.
 
 
 -------------------------------------------REPRESENTATION OF EXPRESSIONS----------------------------------------------
@@ -48,13 +52,21 @@ Expressions can be of the following forms:
 
 ------------------------------------------------------USAGE-------------------------------------------------------------
 
+
+
 Follow the steps to use the program -
 
-1. Import file '' to prolog (All other necessary imports are handled automatically).
-	Sample database is in the file ''. Import it if necessary.
+1. 	BEGIN EXECUTION
 
-2. 	To add your own firewall rules during execution of program, pose the following query: 
+	Import file 'parser.pl' to prolog (All other necessary imports, except 'database.pl', are handled automatically).
+	Sample database is in the file 'database.pl'. Import it if required.
+
+2. 	ADD FIREWALL RULES AT RUNTIME
+
+	To add your own firewall rules during execution of program, pose the following query: 
+
 				?- add_fwrule(Fate, Rule).
+
 	where,
 		Fate  is accept | reject | drop
 		Rule is in string form, as defined in the documentation provided with assignment.
@@ -62,6 +74,7 @@ Follow the steps to use the program -
 		Example:	
 
 				?- add_fwrule("accept", "adapter A ip src addr 172.27.1.3").
+
 				[Accepts all packets coming from adapter A with source IP address 172.27.1.3]
 
 		Refer to 'database.pl' for comprehensive list of valid firewall rules.
@@ -69,8 +82,23 @@ Follow the steps to use the program -
 		NOTE: The rule language is case sensitive.
 		NOTE: Clauses in the rules can be added in any order.
 
-3. Check the fate of any packet by asking query
+3. 	CHANGE FIREWALL DEFAULT
+	
+	Firewall default is 'drop'.
+
+	To change firewall default during execution of the program, pose the following query:
+				change_fwdefault(DefaultFate).
+
+	Example:
+				change_fwdefault("accept").
+				[Changes firewall to accept packets by default]
+
+4. 	CHECK FATE OF A PACKET
+
+	Check the fate of any packet by asking query
+
 				?- fate(Fate, Packet).
+
 	where,
 		Fate is the variable which will be instantiated to the fate of the packet (accept | reject | drop).
 		Packet is a string containing the details of the packet.
@@ -107,14 +135,6 @@ Follow the steps to use the program -
 			icmpcode				0 - 255					ICMP Code (applicable for icmp)
 
 
-4. Firewall default is 'drop'.
-	To change firewall default during execution of the program, pose the following query:
-				change_fwdefault(DefaultFate).
-
-	Example:
-				change_fwdefault("accept").
-				[Changes firewall to accept packets by default]
-
 
 
 ---------------------------------------IMPLEMENTATION--------------------------------------------------------
@@ -122,13 +142,19 @@ Follow the steps to use the program -
 The following top-level predicates exist in our program:
 
 	1.	fwrule(+Fate, +Rule)
+			Represents firewall rules in the database.
 
 	2.	fwdefault(+DefaultFate)
+			Represents firewall default in the database.
 
 	3.	add_fwrule(+Fate, +Rule)
+			Add firewall rules during runtime, first verifying if rule is valid.
 
 	4.	change_fwdefault(+NewDefaultFate)
+			Change firewall default during runtime.
 
 	5.	fate(-Fate, +Packet)
+			Check fate of a packet.
 
 	6.	add_fwrule_noverify(+Fate, +Rule)
+			Add firewall rules during runtime, without verifying if rule is valid.
