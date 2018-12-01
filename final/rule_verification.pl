@@ -1,6 +1,7 @@
 % Header imports
 
-:- [parser].
+% :- [parser].
+:- ensure_loaded([ipcompare, rangecheck]).
 
 verify_fwrule(RuleStr) :- 
 	split_string(RuleStr, " ", "", Rule),

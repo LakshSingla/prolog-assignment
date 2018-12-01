@@ -1,9 +1,7 @@
 :- dynamic fwrule/2.
 :- dynamic fwdefault/1.
 
-:- [ipcompare].
-:- [rangecheck].
-:- [rule_verification].
+:- ensure_loaded([ipcompare, rangecheck, rule_verification]).
 
 add_fwrule(Fate, Rule) :- verify_fwrule(Rule), assertz(fwrule(Fate,Rule)).
 change_fwdefault(DefaultFate) :- retract(fwdefault(_)), assertz(fwdefault(DefaultFate)).
@@ -14,6 +12,7 @@ fate(Fate, PacketStr) :-
 	split_string(RuleStr, " ", "", Rule),
 	split_string(PacketStr, " ", "", Packet),
 	fwrule_matches(Rule, Packet),
+	write(RuleStr),
 	!.
 
 fate(Fate, _) :- write("Resorting to firewall default"), fwdefault(Fate).

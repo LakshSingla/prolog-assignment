@@ -3,7 +3,7 @@
 % or a dash seperated range. It can work on strings representing numbers (IsNum)
 % or single alphabet (\+IsNum)
 
-:- [normalize_number].
+:- ensure_loaded([normalize_number]).
 
 lies_in_not_Expr(MaybeNotExpr, Val, IsNum) :- 
 	

@@ -4,7 +4,7 @@
 % It defaults to decimal in all other cases and return false if the string is not a valid
 % numerical representation
 
-:- [octtodec, hextodec].
+:- ensure_loaded([octtodec, hextodec]).
 
 normalize_numstr(NumString, NormalizedNum) :- 
 
