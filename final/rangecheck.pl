@@ -3,6 +3,8 @@
 % or a dash seperated range. It can work on strings representing numbers (IsNum)
 % or single alphabet (\+IsNum)
 
+:- module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
+
 :- ensure_loaded([normalize_number]).
 
 lies_in_not_Expr(MaybeNotExpr, Val, IsNum) :- 
@@ -53,3 +55,11 @@ satisfies(MaybeRange, Val, IsNum) :-
 	\+IsNum, 									% true if the user wants to compare as single alphabet
 	MaybeRange = [Alpha | []], 					% Array has exactly 1 entity
 	Val=Alpha.									% Equality
+
+adpt_expr_matches("any", _).
+adpt_expr_matches(Adpt, PktAdptr) :- 
+	lies_in_not_Expr(Adpt, PktAdptr, false).
+
+num_expr_matches("any", _).
+num_expr_matches(NumExpr, Val) :- 
+	lies_in_not_Expr(NumExpr, Val, true).

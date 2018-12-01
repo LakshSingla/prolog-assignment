@@ -1,5 +1,8 @@
 % Utility to convert a octal atomic array into its equivalent decimal representation
 
+:- module(octtodec, [acc_oct/3]).
+
+
 acc_oct([H|T], P, Dec) :- 
     
     atom_number(H, Y),      % Convert the character into numeral
