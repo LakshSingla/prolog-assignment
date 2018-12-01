@@ -1,4 +1,4 @@
-:- module(parser, [add_fwrule/2, change_fwdefault/1, fate/2]).
+:- module(parser, [add_fwrule/2, change_fwdefault/1, fate/2, add_fwrule_noverify/2]).
 
 :- use_module(ipcompare, [ip_expr_matches/2]).
 :- use_module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
@@ -14,10 +14,13 @@
 add_fwrule(Fate, Rule) :-
 	verify_fate(Fate),
 	verify_fwrule(Rule), 
-	assertz(fwrule(Fate,Rule)),
+	assertz(fwrule(Fate, Rule)),
 	!;
-	write("Please enter a valid firewall rule."),
-	false.
+	\+ write("Please enter a valid firewall rule.").
+
+add_fwrule_noverify(Fate, Rule) :-
+	assertz(fwrule(Fate, Rule)).
+
 change_fwdefault(DefaultFate) :- 
 	verify_fate(DefaultFate),
 	retract(fwdefault(_)), 

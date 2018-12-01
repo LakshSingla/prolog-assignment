@@ -29,10 +29,18 @@ Further,
 Expressions can be of the following forms:
 	
 	TYPE 					EXAMPLE
+
 	Single values			12
+
 	Comma separated list	0x34,023,12
+							[There should be NO SPACES in between]
+
 	Range					72-90 (former value should be lesser than latter)
+							[There should be NO SPACES in between]
+
 	Negated 				!10-20 (matches values except 10-20 both inclusive)
+							!34,70 (matches values except 34 and 70)
+							[There should be NO SPACES in between]
 
 
 
@@ -72,7 +80,9 @@ Follow the steps to use the program -
 				fate(Fate, "adapter B vid 20 tlproto udp srcport 0x34 dstport 077")
 
 
-		Details of a packet will include space separated key-value pairs. The following keys are defined:
+		Details of a packet will include space separated key-value pairs ("Key1 Value1 Key2 Value2 ..."). 
+
+		The following keys are defined:
 
 			KEY						VALUE					MEANING	
 
@@ -96,6 +106,7 @@ Follow the steps to use the program -
 
 			icmpcode				0 - 255					ICMP Code (applicable for icmp)
 
+
 4. Firewall default is 'drop'.
 	To change firewall default during execution of the program, pose the following query:
 				change_fwdefault(DefaultFate).
@@ -103,3 +114,21 @@ Follow the steps to use the program -
 	Example:
 				change_fwdefault("accept").
 				[Changes firewall to accept packets by default]
+
+
+
+---------------------------------------IMPLEMENTATION--------------------------------------------------------
+
+The following top-level predicates exist in our program:
+
+	1.	fwrule(+Fate, +Rule)
+
+	2.	fwdefault(+DefaultFate)
+
+	3.	add_fwrule(+Fate, +Rule)
+
+	4.	change_fwdefault(+NewDefaultFate)
+
+	5.	fate(-Fate, +Packet)
+
+	6.	add_fwrule_noverify(+Fate, +Rule)
