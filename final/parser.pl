@@ -1,7 +1,15 @@
+:- module(parser, [add_fwrule/2, change_fwdefault/1, fate/2]).
+
+:- use_module(ipcompare, [ip_expr_matches/2]).
+:- use_module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
+:- use_module(rule_verification, [verify_fwrule/1, verify_fate/1]).
+
+:- [database].
+
 :- dynamic fwrule/2.
 :- dynamic fwdefault/1.
 
-:- ensure_loaded([ipcompare, rangecheck, rule_verification]).
+% :- ensure_loaded([ipcompare, rangecheck, rule_verification]).
 
 add_fwrule(Fate, Rule) :-
 	verify_fate(Fate),
@@ -10,8 +18,11 @@ add_fwrule(Fate, Rule) :-
 	!;
 	write("Please enter a valid firewall rule."),
 	false.
-change_fwdefault(DefaultFate) :- retract(fwdefault(_)), assertz(fwdefault(DefaultFate)).
-fwdefault("Drop").
+change_fwdefault(DefaultFate) :- 
+	verify_fate(DefaultFate),
+	retract(fwdefault(_)), 
+	assertz(fwdefault(DefaultFate)).
+
 
 fate(Fate, PacketStr) :- 
 	fwrule(Fate, RuleStr),
@@ -130,12 +141,12 @@ get_keyval([Key, Val| _], Key, Val).
 get_keyval([_, _| T], Key, Val) :- get_keyval(T, Key, Val).
 
 % adpt_expr_matches(X, X).
-adpt_expr_matches("any", _).
-adpt_expr_matches(Adpt, PktAdpt) :-
-	lies_in_not_Expr(Adpt, PktAdpt, false).
+% adpt_expr_matches("any", _).
+% adpt_expr_matches(Adpt, PktAdpt) :-
+	% lies_in_not_Expr(Adpt, PktAdpt, false).
 
-num_expr_matches("any", _).
-num_expr_matches(NumExpr, Val):-
-	lies_in_not_Expr(NumExpr, Val, true).
+% num_expr_matches("any", _).
+% num_expr_matches(NumExpr, Val):-
+	% lies_in_not_Expr(NumExpr, Val, true).
 
 % Are empty conditions being handled ?

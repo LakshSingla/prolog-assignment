@@ -1,7 +1,13 @@
 % Header imports
 
 % :- [parser].
-:- ensure_loaded([ipcompare, rangecheck]).
+
+:- module(rule_verification, [verify_fate/1, verify_fwrule/1]).
+
+:- use_module(ipcompare, [ip_expr_matches/2]).
+:- use_module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
+
+% :- ensure_loaded([ipcompare, rangecheck]).
 verify_fate(Fate) :-
 	Fate = "accept";
 	Fate = "reject";
@@ -68,8 +74,8 @@ condition_matches(["udp", "src", "port", SrcPort|W], W) :-
 	port_expr_valid(SrcPort).
 
 condition_matches(["icmp", "type", IcmpType, "code", IcmpCode|W], W) :-
-	icmp_type_expr_valid(IcmpType),
-	icmp_code_expr_valid(IcmpCode).
+	icmp_expr_valid(IcmpType),
+	icmp_expr_valid(IcmpCode).
 condition_matches(["icmp", "type", IcmpType|W], W) :-
 	icmp_expr_valid(IcmpType).
 condition_matches(["icmp", "code", IcmpCode|W], W) :-

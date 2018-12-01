@@ -7,8 +7,10 @@
 %	Single
 
 % ip_expr_matches(+RuleIPString, +PacketIPString)
+:- module(ipcompare, [ip_expr_matches/2]).
+% :- ensure_loaded([dectobin]).
+:- use_module(dectobin, [decimal_to_byte/2]).
 
-:- ensure_loaded([dectobin]).
 
 ip_expr_matches(RuleIP, PacketIP) :-
 	split_string(RuleIP, ",", "", IPList),

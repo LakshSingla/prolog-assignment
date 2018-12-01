@@ -4,7 +4,13 @@
 % It defaults to decimal in all other cases and return false if the string is not a valid
 % numerical representation
 
-:- ensure_loaded([octtodec, hextodec]).
+:- module(normalize_number, [normalize_numstr/2]).
+
+:- use_module(hextodec, [acc_hex/3]).
+:- use_module(octtodec, [acc_oct/3]).
+
+% :- ensure_loaded([octtodec, hextodec]).
+
 
 normalize_numstr(NumString, NormalizedNum) :- 
 

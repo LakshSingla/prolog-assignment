@@ -1,5 +1,8 @@
 % Utility to convert a hexadecimal atomic array into its equivalent decimal representation
 
+:- module(hextodec, [acc_hex/3]).
+
+
 % Numerical forms of the hexadecimal atoms
 hexdigtodec('0', 0).
 hexdigtodec('1', 1).

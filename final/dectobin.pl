@@ -1,5 +1,8 @@
 % decimal_to_byte(+DecimalString, -ByteString)
 
+:- module(dectobin, [decimal_to_byte/2]).
+
+
 decimal_to_byte(Decimal, Byte) :-
 	number_string(Number, Decimal),
 	decimal_to_binary(Number, Binary),
