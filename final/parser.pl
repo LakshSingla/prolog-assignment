@@ -1,8 +1,8 @@
 :- module(parser, [add_fwrule/2, change_fwdefault/1, fate/2, add_fwrule_noverify/2]).
 
-:- use_module(ipcompare, [ip_expr_matches/2]).
-:- use_module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
-:- use_module(rule_verification, [verify_fwrule/1, verify_fate/1]).
+:- use_module('utils/ipcompare', [ip_expr_matches/2]).
+:- use_module('utils/rangecheck', [num_expr_matches/2, adpt_expr_matches/2]).
+:- use_module('utils/rule_verification', [verify_fwrule/1, verify_fate/1]).
 
 :- [database].
 
