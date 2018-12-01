@@ -12,7 +12,8 @@ Summary:
 The given prolog program implements a firewall through prolog programming language.
 Rules can be added to the firewall, and then packet details can be entered as queries to find out whether the packet will be accepted, rejected or ignored.
 
---------------------------------CONVENTION ACCEPTED FOR MULTIPLE APPLICABLE RULES-------------------------------------
+
+----------------------------------CONVENTION ACCEPTED FOR MULTIPLE APPLICABLE RULES-------------------------------------
 
 
 Rules added at runtime are given higher precedence over rules added through 'database.pl'.
@@ -20,18 +21,22 @@ Rules are evaluated top to bottom.
 Earlier rules are given precedence over later rules.
 
 
--------------------------------------------REPRESENTATION OF EXPRESSIONS----------------------------------------------
+---------------------------------------------REPRESENTATION OF EXPRESSIONS----------------------------------------------
+
 
 Numeric expressions can be in decimal, octal or hexadecimal notation. Convention followed is same as in other languages.
 
-	PREFIX	MEANING
-	0x 		Hexadecimcal numbers
-	0		Octal numbers
-	None	Decimal numbers
 
-Further,
-Expressions can be of the following forms:
+	PREFIX		MEANING
+
+	0x 			Hexadecimcal numbers
+	0			Octal numbers
+	None		Decimal numbers
+
+
+Further, expressions can be of the following forms:
 	
+
 	TYPE 					EXAMPLE
 
 	Single values			12
@@ -45,8 +50,6 @@ Expressions can be of the following forms:
 	Negated 				!10-20 (matches values except 10-20 both inclusive)
 							!34,70 (matches values except 34 and 70)
 							[There should be NO SPACES in between]
-
-
 
 
 
@@ -100,6 +103,7 @@ Follow the steps to use the program -
 				?- fate(Fate, Packet).
 
 	where,
+	
 		Fate is the variable which will be instantiated to the fate of the packet (accept | reject | drop).
 		Packet is a string containing the details of the packet.
 
