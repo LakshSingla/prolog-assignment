@@ -1,37 +1,14 @@
-:- module(parser, [add_fwrule/2, change_fwdefault/1, fate/2, add_fwrule_noverify/2]).
+% :- module(parser, [add_fwrule/2, change_fwdefault/1, fate/2, add_fwrule_noverify/2]).
+:- module(parser, [verify_fate/1, verify_fwrule/1, fwrule_matches/2]).
 
-:- use_module('utils/ipcompare', [ip_expr_matches/2]).
-:- use_module('utils/rangecheck', [num_expr_matches/2, adpt_expr_matches/2]).
-:- use_module('utils/rule_verification', [verify_fwrule/1, verify_fate/1]).
+:- use_module(ipcompare, [ip_expr_matches/2]).
+:- use_module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
+:- use_module(rule_verification, [verify_fwrule/1, verify_fate/1]).
 
-:- dynamic fwrule/2.
-:- dynamic fwdefault/1.
+% :- dynamic fwrule/2.
+% :- dynamic fwdefault/1.
 
 % :- ensure_loaded([ipcompare, rangecheck, rule_verification]).
-
-add_fwrule(Fate, Rule) :-
-	verify_fate(Fate),
-	verify_fwrule(Rule), 
-	assertz(fwrule(Fate, Rule)),
-	!;
-	\+ write("Please enter a valid firewall rule.").
-
-add_fwrule_noverify(Fate, Rule) :-
-	assertz(fwrule(Fate, Rule)).
-
-change_fwdefault(DefaultFate) :- 
-	verify_fate(DefaultFate),
-	retract(fwdefault(_)), 
-	assertz(fwdefault(DefaultFate)).
-
-
-fate(Fate, PacketStr) :- 
-	fwrule(Fate, RuleStr),
-	split_string(RuleStr, " ", "", Rule),
-	split_string(PacketStr, " ", "", Packet),
-	fwrule_matches(Rule, Packet),
-	write(RuleStr),
-	!.
 
 fate(Fate, _) :- write("Resorting to firewall default"), fwdefault(Fate).
 
