@@ -1,13 +1,18 @@
-[CS F214] LOGIC IN COMPUTER SCIENCE
-ASSIGNMENT (PROLOG)
+[CS F214] LOGIC IN COMPUTER SCIENCE : ASSIGNMENT (PROLOG)
 
 Title: Implementing a firewall through prolog.
 
 Submitted By:
+
 Laksh Singla			2017A7PS0082P
 Shubham Saxena			2017A7PS0302P
 
-Summary:
+Import file 'firewall.pl' to run the program. It also contains the database of sample rules.
+All other files are in the '/utils' folder.
+
+Skip to section INSTRUCTIONS for instructions on how to use the program.
+
+-------------------------------------------------------ABSTRACT--------------------------------------------------------
 
 The given prolog program implements a firewall through prolog programming language.
 Rules can be added to the firewall, and then packet details can be entered as queries to find out whether the packet will be accepted, rejected or ignored.
@@ -34,7 +39,7 @@ Numeric expressions can be in decimal, octal or hexadecimal notation. Convention
 	None		Decimal numbers
 
 
-Further, expressions can be of the following forms:
+Further, all expressions (except IPv4 expressions) can be of the following forms:
 	
 
 	TYPE 					EXAMPLE
@@ -52,8 +57,23 @@ Further, expressions can be of the following forms:
 							[There should be NO SPACES in between]
 
 
+IPv4 Expressions:
 
-------------------------------------------------------USAGE-------------------------------------------------------------
+	These expressions can be written in any of the given forms:
+
+		TYPE 						EXAMPLE
+
+		Single						192.168.1.1
+
+		Comma separated list		192.168.1.1,192.168.1.2
+
+		Range						192.168.1.1-192.168.1.5
+
+		Masked						192.168.1.1/24
+
+
+
+---------------------------------------------------INSTRUCTIONS----------------------------------------------------------
 
 
 
@@ -61,29 +81,47 @@ Follow the steps to use the program -
 
 1. 	BEGIN EXECUTION
 
-	Import file 'parser.pl' to prolog (All other necessary imports, except 'database.pl', are handled automatically).
-	Sample database is in the file 'database.pl'. Import it if required.
+	Import file 'firewall.pl' to prolog (All other necessary imports are handled automatically).
 
-2. 	ADD FIREWALL RULES AT RUNTIME
+2. 	ADD/MODIFY FIREWALL RULES
+		
+	METHOD I: Through 'firewall.pl':
 
-	To add your own firewall rules during execution of program, pose the following query: 
+				Simply add/modify the rules in the firewall.pl file.
 
-				?- add_fwrule(Fate, Rule).
+				Firewall predicates are of the form:
 
-	where,
-		Fate  is accept | reject | drop
-		Rule is in string form, as defined in the documentation provided with assignment.
+							fwrule(Fate, Rule).
 
-		Example:	
+				where,
+					Fate is accept | reject | drop
+					Rule is in string form, as defined in the documentation provided with assignment.
 
-				?- add_fwrule("accept", "adapter A ip src addr 172.27.1.3").
+				Example
 
-				[Accepts all packets coming from adapter A with source IP address 172.27.1.3]
+	METHOD II: Through queries, during runtime:
 
-		Refer to 'database.pl' for comprehensive list of valid firewall rules.
+				To add your own firewall rules during execution of program, pose the following query: 
+			
+							?- add_fwrule(Fate, Rule).
+			
+				where,
+					Fate  is accept | reject | drop
+					Rule is in string form, as defined in the documentation provided with assignment.
 
-		NOTE: The rule language is case sensitive.
-		NOTE: Clauses in the rules can be added in any order.
+				Example:
+
+					fwrule("drop", "adapter A").
+					[Drops all packets coming through adapter A]
+			
+				Example:	
+					
+					?- add_fwrule("accept", "adapter A ip src addr 172.27.1.3").
+					[Accepts all packets coming from adapter A with source IP address 172.27.1.3]
+
+	NOTE: Refer to pre-existing rules in 'firewall.pl' for more examples.
+	NOTE: The rule language is case sensitive.
+	NOTE: Clauses in the rules can be added in any order.
 
 3. 	CHANGE FIREWALL DEFAULT
 	
