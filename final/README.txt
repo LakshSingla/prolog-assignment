@@ -21,7 +21,6 @@ Rules can be added to the firewall, and then packet details can be entered as qu
 ----------------------------------CONVENTION ACCEPTED FOR MULTIPLE APPLICABLE RULES-------------------------------------
 
 
-Rules added at runtime are given higher precedence over rules added through 'database.pl'.
 Rules are evaluated top to bottom.
 Earlier rules are given precedence over later rules.
 
@@ -94,10 +93,13 @@ Follow the steps to use the program -
 							fwrule(Fate, Rule).
 
 				where,
+
 					Fate is accept | reject | drop
 					Rule is in string form, as defined in the documentation provided with assignment.
 
-				Example
+				Example:
+
+							fwrule("accept", "ether vid any").
 
 	METHOD II: Through queries, during runtime:
 
@@ -106,6 +108,7 @@ Follow the steps to use the program -
 							?- add_fwrule(Fate, Rule).
 			
 				where,
+				
 					Fate  is accept | reject | drop
 					Rule is in string form, as defined in the documentation provided with assignment.
 
@@ -166,7 +169,7 @@ Follow the steps to use the program -
 
 			dstip					Valid IPv4 address		Destination IP address
 
-			tlproto					tcp | udp | icmp 		Transport layer protocol
+			tlproto					tcp | udp | icmp 		Transport layer protocol (NECESSARY in case a condition is imposed in rule)
 
 			srcport					0 - 65535				Source port (applicable for tcp|udp)
 

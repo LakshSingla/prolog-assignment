@@ -1,0 +1,66 @@
+DATABASE
+
+The database of firewall rules used for this example is as follows:
+
+fwrule("reject","adapter any ip src addr any dst addr 0xC0.0xA8.0x1.0x1").						% IPv4 is hex equivalent of 192.168.1.1
+fwrule("reject","adapter any ip src addr any dst addr any icmp type 010").						% ICMP type octal equivalent of 8
+fwrule("accept","adapter A ip src addr !172.11.1.1-172.11.1.10 dst addr any tcp src port 20 dst port 80").
+fwrule("drop","adapter A ip src addr 168.25.5.1/24").
+fwrule("drop", "adapter A ip addr 192.168.1.1").
+fwrule("reject", "adapter M,O ether vid 20").
+fwrule("accept", "adapter K").
+fwrule("reject", "ether vid 21").
+
+
+fwdefault("drop").
+
+SAMPLE QUERIES
+
+Here is a sample run of our program.
+
+	Welcome to SWI-Prolog (threaded, 64 bits, version 7.6.4)
+	SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
+	Please run ?- license. for legal details.
+
+	For online help and background, visit http://www.swi-prolog.org
+	For built-in help, use ?- help(Topic). or ?- apropos(Word).
+
+	?- ['firewall.pl'].
+	true.
+
+	?- fate(Fate, "adapter A").
+	MATCHES: ether vid any
+	Fate = "reject".
+
+	?- fate(Fate, "dstip 192.168.1.1").
+	MATCHES: adapter any ip src addr any dst addr 0xC0.0xA8.0x1.0x1
+	Fate = "reject".
+
+	?- fate(Fate, "icmptype 8").
+	MATCHES: ether vid any
+	Fate = "reject".
+
+	?- fate(Fate, "tlproto icmp icmptype 8").
+	MATCHES: adapter any ip src addr any dst addr any icmp type 010
+	Fate = "reject".
+
+	?- fate(Fate, "adapter M vid 21").
+	MATCHES: ether vid 21
+	Fate = "reject".
+
+	?- fate(Fate, "adapter M vid 20").
+	MATCHES: adapter M,O ether vid 20
+	Fate = "reject".
+
+	?- fate(Fate, "adapter A").
+	Resorting to firewall default
+	Fate = "drop".
+
+	?- fate(Fate, "adapter A srcip 168.25.5.45").
+	MATCHES: adapter A ip src addr 168.25.5.1/24
+	Fate = "drop".
+
+
+
+
+

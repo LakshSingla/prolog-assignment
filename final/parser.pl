@@ -1,16 +1,14 @@
 % :- module(parser, [add_fwrule/2, change_fwdefault/1, fate/2, add_fwrule_noverify/2]).
 :- module(parser, [verify_fate/1, verify_fwrule/1, fwrule_matches/2]).
 
-:- use_module(ipcompare, [ip_expr_matches/2]).
-:- use_module(rangecheck, [num_expr_matches/2, adpt_expr_matches/2]).
-:- use_module(rule_verification, [verify_fwrule/1, verify_fate/1]).
+:- use_module('utils/ipcompare', [ip_expr_matches/2]).
+:- use_module('utils/rangecheck', [num_expr_matches/2, adpt_expr_matches/2]).
+:- use_module('utils/rule_verification', [verify_fwrule/1, verify_fate/1]).
 
 % :- dynamic fwrule/2.
 % :- dynamic fwdefault/1.
 
 % :- ensure_loaded([ipcompare, rangecheck, rule_verification]).
-
-fate(Fate, _) :- write("Resorting to firewall default"), fwdefault(Fate).
 
 %  Default query
 %  fate("drop", _).
@@ -35,7 +33,7 @@ eth_clause_matches(["ether", "vid", Vid, "proto", NlProto|W], W, Packet) :-
 	get_keyval(Packet, "nlproto", PktNlProto),
 	num_expr_matches(NlProto, PktNlProto).
 eth_clause_matches(["ether", "vid", Vid|W], W, Packet) :-
-get_keyval(Packet, "vid", PktVid),
+	get_keyval(Packet, "vid", PktVid),
 	num_expr_matches(Vid, PktVid).
 eth_clause_matches(["ether", "proto", NlProto|W], W, Packet) :-
 	get_keyval(Packet, "nlproto", PktNlProto),
@@ -115,8 +113,10 @@ condition_matches(["icmp", "code", IcmpCode|W], W, Packet) :-
 
 condition_matches(W, W, _).
 
+get_keyval([], _, "").
 get_keyval([Key, Val| _], Key, Val).
-get_keyval([_, _| T], Key, Val) :- get_keyval(T, Key, Val).
+get_keyval([_, _| T], Key, Val) :- get_keyval(T, Key, Val), !.
+
 
 % adpt_expr_matches(X, X).
 % adpt_expr_matches("any", _).

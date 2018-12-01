@@ -14,6 +14,8 @@
 
 % ip_expr_matches(+RuleIPString, +PacketIPString)
 
+ip_expr_matches("any", _).
+
 ip_expr_matches(RuleIP, PacketIP) :-
 	split_string(RuleIP, ",", "", IPList),				% for when IP is a list
 	IPList = [_,_|_],
